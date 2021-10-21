@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  FormsModule:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "icc-forms-${Environment}"
+      CodeUri: forms/
+      Handler: main
+      Runtime: go1.x
+      VpcConfig:
+        SubnetIds:
+          - subnet-0553ac7b799921d76
+          - subnet-02459022cafcec6cc
+          - subnet-0ca0bb7c4bbce463d
+        SecurityGroupIds:
+          - sg-0145f31c24137bb7d
+      Environment:
+        Variables:
+          APP_ENV: "${Environment}"
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - prod
+      - dev
